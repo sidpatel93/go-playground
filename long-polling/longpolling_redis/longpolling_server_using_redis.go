@@ -3,12 +3,12 @@ package longpolling_redis
 import (
 	"context"
 	"encoding/json"
+	"github.com/redis/go-redis/v9"
 	"log"
 	"long-polling/common"
 	"net/http"
+	"os"
 	"time"
-
-	"github.com/redis/go-redis/v9"
 )
 
 var localBroker *common.Broker = common.NewBroker()
@@ -24,9 +24,9 @@ var rdb *redis.Client
 
 func initRedis() {
 	rdb = redis.NewClient(&redis.Options{
-		Addr:     "192.168.2.156:6379",
-		Username: "default",
-		Password: "Periscope-Demeanor-Refold8-Preorder-Mutate",
+		Addr:     os.Getenv("REDIS_HOST"),
+		Username: os.Getenv("REDIS_USER"),
+		Password: os.Getenv("REDIS_PASSWORD"),
 	})
 	_, err := rdb.Ping(ctx).Result()
 	if err != nil {
