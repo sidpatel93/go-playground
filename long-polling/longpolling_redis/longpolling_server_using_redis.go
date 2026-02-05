@@ -61,7 +61,7 @@ func PollingHandler(w http.ResponseWriter, r *http.Request) {
 	case msg := <-messageChan:
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(common.Message{Content: msg})
-	case <-time.After(30 * time.Second):
+	case <-time.After(10 * time.Second):
 		http.Error(w, "Timeout", http.StatusRequestTimeout)
 	case <-r.Context().Done():
 		http.Error(w, "Request cancelled", http.StatusRequestTimeout)
